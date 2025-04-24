@@ -1,7 +1,9 @@
-import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUserSignup } from "../redux/slices/user.slice";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [userData, setUserData] = useState({
@@ -10,7 +12,10 @@ const Signup = () => {
     password: "",
   });
 
+  const { isLoading, isError } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleValueChange = (e) => {
     const { name, value } = e.target;
@@ -20,9 +25,15 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit=()=>{
+  const handleSubmit = () => {
     dispatch(fetchUserSignup(userData))
-  }
+      .then((data) => {
+        toast.success(data?.payload?.message);
+        navigate("/login");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4}>
       <Box
@@ -75,8 +86,10 @@ const Signup = () => {
             color="white"
             _hover={{ bg: "#3d8c2f" }}
             onClick={handleSubmit}
+            isLoading={isLoading}
+            disabled={isLoading}
           >
-            SIGNUP
+            {isLoading ? <Spinner size="md" color="green.500" /> : "SIGNUP"}
           </Button>
         </Box>
       </Box>

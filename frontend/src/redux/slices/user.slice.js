@@ -3,7 +3,7 @@ import { API } from "../../configs/axios";
 
 export const fetchUserSignup = createAsyncThunk(
   "user/signup",
-  async ( userData ) => {
+  async (userData) => {
     try {
       const response = await API.post("auth/signup", userData);
       return response.data;
@@ -13,21 +13,45 @@ export const fetchUserSignup = createAsyncThunk(
   }
 );
 
+export const fetchUserLogin = createAsyncThunk("auth/login", async (userData) => {
+  try {
+    const response = await API.post("auth/login", userData);
+    return response.data;
+  } catch (error) {
+    console.log("Error while login : " + error.message);
+  }
+});
+
 const userSlice = createSlice({
   name: "user",
-  initialState: { isLoading: false, isError: false, data: {} },
+  initialState: { isLoading: false, isError: false, user: {} },
   extraReducers: (builder) => {
     // Signup
     builder.addCase(fetchUserSignup.pending, (state) => {
       state.isLoading = true;
       state.isError = false;
     });
-    builder.addCase(fetchUserSignup.fulfilled, (state, action) => {
+    builder.addCase(fetchUserSignup.fulfilled, (state) => {
       state.isLoading = false;
       state.isError = false;
-      state.data = action.payload?.data;
     });
     builder.addCase(fetchUserSignup.rejected, (state) => {
+      state.isLoading = false;
+      state.isError = true;
+    });
+
+    // Login
+
+    builder.addCase(fetchUserLogin.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+    });
+    builder.addCase(fetchUserLogin.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.user = action.payload?.data;
+    });
+    builder.addCase(fetchUserLogin.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
     });

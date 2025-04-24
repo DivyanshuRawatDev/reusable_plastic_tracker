@@ -1,7 +1,38 @@
-import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { fetchUserLogin } from "../redux/slices/user.slice";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { isLoading, isError } = useSelector((store) => store.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleValueChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    dispatch(fetchUserLogin(userData))
+      .then((data) => {
+        // navigate("/login");
+        toast.success(data?.payload?.message);
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4}>
       <Box
@@ -22,11 +53,19 @@ const Login = () => {
             placeholder="email"
             variant="outline"
             focusBorderColor="green.400"
+            value={userData.email}
+            onChange={(e) => handleValueChange(e)}
+            name="email"
+            color={"black"}
           />
           <Input
             placeholder="password"
             variant="outline"
             focusBorderColor="green.400"
+            value={userData.password}
+            onChange={(e) => handleValueChange(e)}
+            name="password"
+            color={"black"}
           />
         </Box>
 
@@ -36,8 +75,11 @@ const Login = () => {
             bg="#4da73d"
             color="white"
             _hover={{ bg: "#3d8c2f" }}
+            isLoading={isLoading}
+            disabled={isLoading}
+            onClick={handleSubmit}
           >
-            LOGIN
+            {isLoading ? <Spinner size="md" color="green.500" /> : "LOGIN"}
           </Button>
         </Box>
       </Box>
