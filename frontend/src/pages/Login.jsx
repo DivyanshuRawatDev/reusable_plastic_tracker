@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { fetchUserLogin } from "../redux/slices/user.slice";
 import { toast } from "react-toastify";
 
@@ -27,14 +27,22 @@ const Login = () => {
   const handleSubmit = () => {
     dispatch(fetchUserLogin(userData))
       .then((data) => {
-        // navigate("/login");
+        navigate("/dashboard"); 
         toast.success(data?.payload?.message);
-        console.log(data);
       })
       .catch((err) => console.log(err));
   };
   return (
-    <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4}>
+    <Flex
+      minH="100vh"
+      align="center"
+      justify="center"
+      px={4}
+      bgImage="url('https://images.pexels.com/photos/1118667/pexels-photo-1118667.jpeg?cs=srgb&dl=pexels-cody-king-433493-1118667.jpg&fm=jpg')"
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
+    >
       <Box
         bg="white"
         w={{ base: "100%", sm: "80%", md: "30%" }}

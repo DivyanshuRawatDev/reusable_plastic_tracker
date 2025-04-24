@@ -35,11 +35,22 @@ const Signup = () => {
   };
 
   return (
-    <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4}>
+    <Flex
+      className="singup-background"
+      minH="100vh"
+      align="center"
+      justify="center"
+      bgImage="url('https://images.pexels.com/photos/1118667/pexels-photo-1118667.jpeg?cs=srgb&dl=pexels-cody-king-433493-1118667.jpg&fm=jpg')"
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
+      px={4}
+    >
       <Box
         bg="white"
         w={{ base: "100%", sm: "80%", md: "30%" }}
         p={10}
+       
         borderRadius="lg"
         boxShadow="lg"
       >

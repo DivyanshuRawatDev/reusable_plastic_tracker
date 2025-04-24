@@ -3,6 +3,10 @@ import "./App.css";
 import Signup from "./pages/Signup";
 import { Route, Routes } from "react-router";
 import Login from "./pages/Login";
+import Layout from "./components/layout/Layout";
+import PrivateRoutes from "./configs/PrivateRoutes";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -10,8 +14,17 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route
+          element={
+            <PrivateRoutes>
+              <Layout />
+            </PrivateRoutes>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
-    
     </>
   );
 }
