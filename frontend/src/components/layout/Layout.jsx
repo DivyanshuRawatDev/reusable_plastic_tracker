@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 import NavBar from "./NavBar";
 
 const Layout = () => {
-  const user = useSelector((store) => store.user.data);
+  const user = useSelector((store) => store.user.user);
 
   return (
     <>

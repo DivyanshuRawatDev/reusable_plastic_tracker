@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API } from "./axios";
 import Login from "../pages/Login";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate } from "react-router";
 
 const PrivateRoutes = ({ children }) => {
   const [isVerified, setIsVerified] = useState(null);
