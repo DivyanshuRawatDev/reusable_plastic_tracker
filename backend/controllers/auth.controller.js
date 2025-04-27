@@ -50,9 +50,10 @@ const userLogin = async (req, res) => {
 
     const token = jwt.sign({ userId: user?._id }, process.env.JWT_SECRET);
 
-    res.cookie("token", token, {
-      secure: true,
+    res.cookie('token', token, {
       httpOnly: true,
+      secure: true, 
+      sameSite: 'None', 
     });
 
     const { password: _, ...withoutPassword } = user._doc;
