@@ -65,4 +65,24 @@ const userLogin = async (req, res) => {
   }
 };
 
-module.exports = { userSignup, userLogin };
+const verifyUser = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res.status(400).json({ message: "Invaild request" });
+    }
+
+    const tokenVerify = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!tokenVerify) {
+      return res.status(400).json({ message: "Invaild request" });
+    }
+
+    return res.status(200).json({ message: "User verified" });
+  } catch (error) {
+    console.log("Error while verify : " + error.message);
+  }
+};
+
+module.exports = { userSignup, userLogin, verifyUser };

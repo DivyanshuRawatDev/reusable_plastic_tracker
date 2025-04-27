@@ -74,4 +74,19 @@ Give them one short, friendly tip or appreciation in 1–2 lines. Highlight what
   }
 };
 
-module.exports = { getDailyTips, addTips, getAITips };
+const getTopFive = async (req, res) => {
+  try {
+    const user = await UserModel.find({});
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid request" });
+    }
+    user.sort((a, b) => b.totalPoints - a.totalPoints);
+    const topFive = user.slice(0, 5);
+    return res.status(200).json({ message: "user fetched", data: topFive });
+  } catch (error) {
+    console.log("Error while getting top 5 : " + error.message);
+  }
+};
+
+module.exports = { getDailyTips, addTips, getAITips, getTopFive };

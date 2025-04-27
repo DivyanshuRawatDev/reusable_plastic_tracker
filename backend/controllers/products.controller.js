@@ -57,15 +57,30 @@ const updateProductsDetails = async (req, res) => {
 
     return res.status(200).json({
       message: "Product log updated successfully",
-      data: user?.data,
-      totalPoints: user?.totalPoints,
+      data: user,
     });
   } catch (error) {
-    console.log("Error while update productDetails : " + error.message );
+    console.log("Error while update productDetails : " + error.message);
+  }
+};
+
+const getProducts = async (req, res) => {
+  try {
+    const allProducts = await ProductModel.find({});
+
+    if (!allProducts)
+      return res.status(400).json({ message: "Invalid request" });
+
+    return res
+      .status(200)
+      .json({ message: "fetched products successfully", data: allProducts });
+  } catch (error) {
+    console.log("Error while getting the products : " + error.message);
   }
 };
 
 module.exports = {
   addNewProduct,
   updateProductsDetails,
+  getProducts,
 };

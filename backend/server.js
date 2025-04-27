@@ -7,6 +7,7 @@ const userAuth = require("./routes/auth.routes");
 const userProfile = require("./routes/profile.route");
 const productsRoute = require("./routes/product.routes");
 const { authentication } = require("./middleware/authentication");
+const cors = require("cors");
 // const {ai} = require("./configs/gemini")
 var cookieParser = require("cookie-parser");
 const { ai } = require("./configs/gemini");
@@ -15,7 +16,7 @@ dotenv.config();
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 //authentication
 app.use("/api/auth", userAuth);
 
@@ -25,14 +26,14 @@ app.use("/api/profile", userProfile);
 //products
 app.use("/api/products", productsRoute);
 
-app.get("/", authentication, async(req, res) => {
+app.get("/", authentication, async (req, res) => {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: "Explain how AI works in a few words",
     });
 
-    res.json({response})
+    res.json({ response });
   } catch (error) {
     console.log(error);
   }
