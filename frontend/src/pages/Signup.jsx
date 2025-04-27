@@ -12,7 +12,7 @@ const Signup = () => {
     password: "",
   });
 
-  const { isLoading, isError } = useSelector((state) => state.user);
+  const { isLoading } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

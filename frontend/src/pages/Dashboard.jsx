@@ -1,10 +1,13 @@
 import { Box, Flex } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import ProductsGrid from "../components/dashboard/ProductsGrid";
 import TipsGrid from "../components/dashboard/TipsGrid";
 import LeaderboardChart from "../components/dashboard/LeaderboardChart";
+import { useDispatch } from "react-redux";
+import { fetchAllProducts, fetchDailyTips, fetchTopFive } from "../redux/slices/user.slice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const data = [
     { name: "Vinay", points: 120 },
     { name: "Aisha", points: 110 },
@@ -12,6 +15,12 @@ const Dashboard = () => {
     { name: "Divyanshu", points: 900 },
     { name: "Aryan", points: 1500 },
   ];
+
+  useEffect(() => {
+    dispatch(fetchDailyTips());
+    dispatch(fetchAllProducts());
+    dispatch(fetchTopFive());
+  }, []);
   return (
     <Flex
       bgSize="cover"

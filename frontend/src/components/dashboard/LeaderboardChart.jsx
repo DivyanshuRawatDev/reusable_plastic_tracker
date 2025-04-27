@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -11,6 +11,8 @@ import {
   Legend,
 } from "chart.js";
 import { Box, Flex, Text } from "@chakra-ui/react";
+import { getTopFive } from "../../configs/common";
+import { useSelector } from "react-redux";
 
 ChartJS.register(
   CategoryScale,
@@ -22,12 +24,13 @@ ChartJS.register(
 );
 
 const LeaderboardChart = ({ data }) => {
+  const {topFive} = useSelector(store=>store.user);
   const chartData = {
-    labels: data.map((user) => user.name),
+    labels: topFive.map((user) => user?.username),
     datasets: [
       {
         label: "LEADER BOARD",
-        data: data.map((user) => user.points),
+        data: topFive.map((user) => user.totalPoints),
         backgroundColor: [
           "#FE3D00",
           "#FE8125",
@@ -39,6 +42,10 @@ const LeaderboardChart = ({ data }) => {
       },
     ],
   };
+
+  useEffect(() => {
+    getTopFive(data);
+  }, []);
 
   const options = {
     responsive: true,
