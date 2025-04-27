@@ -16,7 +16,12 @@ dotenv.config();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "https://reusable-plastic-tracker.vercel.app/", credentials: true }));
+app.use(
+  cors({
+    origin: "https://fascinating-raindrop-1a88b8.netlify.app",
+    credentials: true,
+  })
+);
 //authentication
 app.use("/api/auth", userAuth);
 
